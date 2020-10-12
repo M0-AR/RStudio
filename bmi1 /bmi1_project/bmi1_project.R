@@ -38,3 +38,64 @@ Dmale <- subset(D, gender == 1)
 ## of the BMI scroes of women and men, respectively
 hist(Dfemale$bmi, xlab="BMI (female)", prob=TRUE)
 hist(Dmale$bmi, xlab="BMI (male)", prob=TRUE)
+
+#------------------------------
+#d
+## Box plot of BMI scores by gender 
+boxplot(Dfemale$bmi, Dmale$bmi, names=c("Female", "Male"), xlab="Gender", ylab="BMI")
+
+#-------------------------------
+#e
+## The argument 'na.rm=TRUE' ensures that the statistic is 
+## computed even in cases where there are missing values.
+
+## Total number of observations 
+## (doesn't include missing values if there are any)
+sum(!is.na(D$bmi))
+## Sample mean (both genders combined)
+mean(D$bmi, na.rm=TRUE)
+## Sample variance (both genders combined)
+var(D$bmi, na.rm=TRUE)
+## Sample std (both genders combined)
+sqrt(var(D$bmi, na.rm=TRUE))
+## Lower quartile median and upper quartile (both genders combined)
+quantile(D$bmi, na.rm=TRUE)
+
+# For Men: 
+## Total number of observations 
+## (doesn't include missing values if there are any)
+sum(!is.na(Dmale$bmi))
+## Sample mean 
+mean(Dmale$bmi, na.rm=TRUE)
+## Sample variance 
+var(Dmale$bmi, na.rm=TRUE)
+## Sample std 
+sqrt(var(Dmale$bmi, na.rm=TRUE))
+## Lower quartile median and upper quartile
+quantile(Dmale$bmi, na.rm=TRUE)
+
+# For Women: 
+## Total number of observations 
+## (doesn't include missing values if there are any)
+sum(!is.na(Dfemale$bmi))
+## Sample mean 
+mean(Dfemale$bmi, na.rm=TRUE)
+## Sample variance 
+var(Dfemale$bmi, na.rm=TRUE)
+## Sample std 
+sqrt(var(Dfemale$bmi, na.rm=TRUE))
+## Lower quartile median and upper quartile 
+quantile(Dfemale$bmi, na.rm=TRUE)
+
+#------------------------------------
+## New variable 'logbmi' with log-trasformed BMI
+D$logbmi <- log(D$bmi)
+## qq-plot of log-transformed BMI
+qqnorm(D$logbmi)
+qqline(D$logbmi)
+#f
+## Statistical Model 
+## Sample mean (both genders combined)
+mean(D$logbmi, na.rm=TRUE)
+## Sample variance (both genders combined)
+var(D$logbmi, na.rm=TRUE)

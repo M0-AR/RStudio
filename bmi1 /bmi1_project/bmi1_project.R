@@ -99,3 +99,33 @@ qqline(D$logbmi)
 mean(D$logbmi, na.rm=TRUE)
 ## Sample variance (both genders combined)
 var(D$logbmi, na.rm=TRUE)
+
+
+
+#---------
+#g
+## Sample mean (both genders combined)
+meanOfLogbmi <- mean(D$logbmi, na.rm=TRUE)
+lengthOfLogbmi <- length(D$logbmi)
+s <- sd(D$logbmi, na.rm=TRUE)
+
+## The t-quantiles for n=10: which n - 1 = degrees of freedom
+qt(0.975, lengthOfLogbmi - 1)
+
+## The 95% confidence interval for the mean
+meanOfLogbmi - qt(0.975, df = lengthOfLogbmi - 1) * s / sqrt(lengthOfLogbmi)
+
+meanOfLogbmi + qt(0.975, df = lengthOfLogbmi - 1) * s / sqrt(lengthOfLogbmi)
+
+## Test for previous 
+## The 99% confidence interval for the mean
+t.test(D$logbmi, conf.level = 0.95)
+
+## Check if BMI score  coming from a normal distribution 
+hist(D$bmi)
+qqnorm(D$bmi, ylab = "Sample quantiles", xlab = "Normal quantiles")
+qqline(D$bmi)
+
+## As I had expected BMI score closer to a normal distribution
+## Back transform to original scale, now we get the median! 
+exp( 3.217641 )

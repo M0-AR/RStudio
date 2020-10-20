@@ -16,6 +16,7 @@ summary(D)
 str(D)
 
 
+
 #------------------------------------
 #b
 ## Calculate BMI scores and add new variable to D
@@ -129,3 +130,36 @@ qqline(D$bmi)
 ## As I had expected BMI score closer to a normal distribution
 ## Back transform to original scale, now we get the median! 
 exp( 3.217641 )
+
+#------------------------
+#h
+### Specify the significance level α
+# sample standard deviation
+sampleSD <- sd(D$logbmi)
+sampleSize <-  length(D$logbmi)
+# standard deviation of our sampling distribution
+sdOfDistribution <- sampleSD / sampleSize
+## Z-statistics: how far we away from mean 
+#mean 
+meanOfLogbmi <- mean(D$logbmi)
+z <- meanOfLogbmi / sdOfDistribution
+
+## Testing hypothesis mu=log(25) for log-trasformed BMI
+t.test(D$logbmi, mu=log(25))
+
+hist(D$logbmi)
+
+
+### investigate whether a difference can be detected between the BMI of women and men.
+# length
+sampleSizeMen <-  length(Dmale$bmi)
+sampleSizeWomen <-  length(Dfemale$bmi)
+# mean 
+meanMen <-  mean(Dmale$bmi)
+meanWomen <-  mean(Dfemale$bmi)
+
+# Sample SD
+sampleSDMen <- sd(Dmale$bmi)
+sampleSDWomen <- sd(Dfemale$bmi)
+
+df()

@@ -151,15 +151,94 @@ hist(D$logbmi)
 
 
 ### investigate whether a difference can be detected between the BMI of women and men.
-# length
-sampleSizeMen <-  length(Dmale$bmi)
-sampleSizeWomen <-  length(Dfemale$bmi)
-# mean 
-meanMen <-  mean(Dmale$bmi)
-meanWomen <-  mean(Dfemale$bmi)
+## New variable 'logbmi' with log-trasformed BMI
+Dmale$logbmi <- log(Dmale$bmi)
+Dfemale$logbmi <- log(Dfemale$bmi)
+##  Keep the summary statistics
+ms <- c(mean(Dmale$bmi), mean(Dfemale$bmi))
+vs <- c(var(Dmale$bmi), var(Dfemale$bmi))
+ns <- c(length(Dmale$bmi), length(Dfemale$bmi))
+## The observed statistic 
+t_obs <- (ms[1]-ms[2])/sqrt(vs[1]/ns[1]+vs[2]/ns[2])
+## The degrees of freedom 
+nu <- ((vs[1]/ns[1]+vs[2]/ns[2])^2)/((vs[1]/ns[1])^2/(ns[1]-1)+(vs[2]/ns[2])^2/(ns[2]-1))
 
-# Sample SD
-sampleSDMen <- sd(Dmale$bmi)
-sampleSDWomen <- sd(Dfemale$bmi)
+## Print the result 
+t_obs
 
-df()
+nu
+
+## p-value
+pv <- 2 * pt(t_obs, df = nu)
+
+t.test(Dmale$bmi, Dfemale$bmi)
+
+### i 
+## New variable 'logbmi' with log-trasformed BMI
+Dmale$logbmi <- log(Dmale$bmi)
+Dfemale$logbmi <- log(Dfemale$bmi)
+##  Keep the summary statistics
+ms <- c(mean(Dmale$logbmi), mean(Dfemale$logbmi))
+vs <- c(var(Dmale$logbmi), var(Dfemale$logbmi))
+ns <- c(length(Dmale$logbmi), length(Dfemale$logbmi))
+
+
+### j
+## The t-quantiles for Nmen=73 and Nwomen=73:
+
+qt(0.975, ns[2]-1)
+
+## Calculate 95% confidence intervals 
+sd <- c(sd(Dmale$logbmi), sd(Dfemale$logbmi))
+# Men
+ms[1] -  qt(0.975, ns[1]-1) * sd[1] / sqrt(ns[1])
+ms[1] +  qt(0.975, ns[1]-1) * sd[1] / sqrt(ns[1])
+
+# Women
+ms[2] -  qt(0.975, ns[2]-1) * sd[2] / sqrt(ns[2])
+ms[2] +  qt(0.975, ns[2]-1) * sd[2] / sqrt(ns[2])
+
+## Consider data for women only
+Dfemale <- subset(D, gender == 0)
+## Compute CI for mean log-BMI score of a woman
+KI <- t.test(Dfemale$logbmi, conf.level=0.95)$conf.int
+KI
+## "Back-transform" to get a CI for median BMI score of a woman 
+exp(KI)
+
+## Consider data for men only
+Dmale <- subset(D, gender == 0)
+## Compute CI for mean log-BMI score of a men
+KI <- t.test(Dmale$logbmi, conf.level=0.95)$conf.int
+KI
+## "Back-transform" to get a CI for median BMI score of a mea 
+exp(KI)
+
+
+
+#------------------------------
+### k 
+## Comparison of mean logBMI for women and men
+t.test(D$logbmi[D$gender == 0], D$logbmi[D$gender == 1])
+
+#------------------------------
+### i 
+## The confidence intervals and joining the lower and upper limits
+CIMen <- t.test(Dmale$logbmi)$conf.int
+CIWomen <- t.test(Dfemale$logbmi)$conf.int
+lower <- c(CIMen[1], CIWomen[1])
+upper <- c(CIMen[2], CIWomen[2])
+## First install the package with: 
+install.packages("gplots")
+library(gplots)
+barplot2(c(mean(Dmale$logbmi),mean(Dfemale$logbmi)), plot.ci=TRUE, ci.l=lower, ci.u=upper,
+         col = 2:3)
+
+## The confidence intervals
+CIMen
+
+
+
+CIWomen
+
+

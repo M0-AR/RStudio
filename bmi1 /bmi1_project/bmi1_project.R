@@ -37,7 +37,7 @@ Dmale <- subset(D, gender == 1)
 
 ## Density histograms describing the emprical density 
 ## of the BMI scroes of women and men, respectively
-hist(Dfemale$bmi, xlab="BMI (female)", prob=TRUE)
+t
 hist(Dmale$bmi, xlab="BMI (male)", prob=TRUE)
 
 #------------------------------
@@ -101,8 +101,30 @@ mean(D$logbmi, na.rm=TRUE)
 ## Sample variance (both genders combined)
 var(D$logbmi, na.rm=TRUE)
 
+sd(D$logbmi, na.rm=TRUE)
 
 
+## Using histograms
+par(mfrow=c(1,2), mar=c(4,3,1,1))
+hist(D$logbmi, xlab="Height", main="", breaks=8)
+hist(D$logbmi, xlab="Height", main="", breaks=2)
+
+## The expected quantiles in a 0 to 1 uniform distribution
+n <- length(D$logbmi)
+## They have equal distance
+pseq <- (1:n-0.5)/n
+## Plot the expected normal distribution quantiles
+plot(x=qnorm(p=pseq), y=sort(D$logbmi), xlab="Normal quantiles",
+     ylab="Sample quantiles")
+## Mark the 1st and 3rd quantiles with crosses
+points(x=qnorm(p=c(0.25,0.75)), y=quantile(D$logbmi,probs=c(0.25,0.75)),
+       pch=3, col="red")
+## Add a straight line through the 1st and 3rd quantiles
+qqline(D$logbmi)
+
+## Let's use the rnorm command to draw 500 numbers at random from a normal distribution having mean 100 and standard deviation 10.
+x <- rnorm(1,mean=mean(D$logbmi, na.rm=TRUE),sd=sd(D$logbmi, na.rm=TRUE))
+z <- (x - mean(D$logbmi, na.rm=TRUE)) / sd(D$logbmi, na.rm=TRUE) / sqrt(length(D$logbmi))
 #---------
 #g
 ## Sample mean (both genders combined)
@@ -133,8 +155,13 @@ exp( 3.217641 )
 
 #------------------------
 #h
+t.test(D$bmi, mu=25)
+
+t_obs <- ( 25.24795  - 25) / sd(D$bmi) / length(D$bmi)
+
+2 * (1 - pt(0.0004462139, length(D$bmi) -1))
 ### Specify the significance level α
-# sample standard deviation
+# sample standard deviationt
 sampleSD <- sd(D$logbmi)
 sampleSize <-  length(D$logbmi)
 # standard deviation of our sampling distribution
@@ -169,7 +196,7 @@ t_obs
 nu
 
 ## p-value
-pv <- 2 * pt(t_obs, df = nu)
+pv <- 2 * pt(t_obs, df = 145)
 
 t.test(Dmale$bmi, Dfemale$bmi)
 
@@ -240,5 +267,9 @@ CIMen
 
 
 CIWomen
+#---------------------------
+## Computing correlations between selected variables
+cor(D[,c("weight","fastfood","bmi")], use="pairwise.complete.obs")
 
-
+df <- data.frame(weight = rnorm(D$weight), fastfood = rnorm(D$fastfood), bmi = rnorm(D$bmi))
+plot(df)

@@ -29,6 +29,8 @@ hist(D$bmi, xlab="BMI", prob=TRUE)
 # Is there much variation to be seen in the observations? 
 var(D$bmi)
 
+sd(D$bmi)
+
 #------------------------------------
 #c 
 ## Divide data into two subsets according to gender
@@ -37,7 +39,7 @@ Dmale <- subset(D, gender == 1)
 
 ## Density histograms describing the emprical density 
 ## of the BMI scroes of women and men, respectively
-t
+
 hist(Dmale$bmi, xlab="BMI (male)", prob=TRUE)
 
 #------------------------------
@@ -157,9 +159,9 @@ exp( 3.217641 )
 #h
 t.test(D$bmi, mu=25)
 
-t_obs <- ( 25.24795  - 25) / sd(D$bmi) / length(D$bmi)
+t_obs <- ( 25.24795  - 25) / sd(D$logbmi) / length(D$logbmi)
 
-2 * (1 - pt(0.0004462139, length(D$bmi) -1))
+2 * (1 - pt(t_obs, length(D$logbmi) -1))
 ### Specify the significance level α
 # sample standard deviationt
 sampleSD <- sd(D$logbmi)
@@ -273,3 +275,6 @@ cor(D[,c("weight","fastfood","bmi")], use="pairwise.complete.obs")
 
 df <- data.frame(weight = rnorm(D$weight), fastfood = rnorm(D$fastfood), bmi = rnorm(D$bmi))
 plot(df)
+
+
+cor(D$bmi, D$weight)^2

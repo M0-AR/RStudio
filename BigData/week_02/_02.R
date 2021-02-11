@@ -47,12 +47,9 @@ time_duration
 # p1, p2, .... from a company. The products are organized into NP=4 subgroups (notice that R is case sensi-
 # tive), where each subgroup contains highly related products (products with the “same function”).
 
-NP <- 4
-# 528
-# 
-products_rate <- c(3,4,1,2)
 
-# Total number of customer assessments observations
+
+
 Prod_no <- c(3,1,3,2,4,2,1,2,2,4,2,3,4,1)# The products assessed by the 
 Gender <- c("F","F","M","F","M","M","F","M","F","F","M","F","M","M")
 Age <- c(37,81,57,79,17,18,67,45,57,79,17,18,67,45)
@@ -61,7 +58,7 @@ Likert_like <- c('Agree','Neither Agree','Disagree','Disagree','Agree','Neither 
 
 Assessments <- data.frame(Prod_no, Gender, Age, Geographical_location, Likert_like) # Create d. frame.
 
-
+# Need more work 
 
 
 

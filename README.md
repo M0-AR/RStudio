@@ -1,2 +1,2 @@
-# RStudio
+# Statistic Course 
  
